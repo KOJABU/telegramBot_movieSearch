@@ -1,0 +1,16 @@
+pytelegrambotapi
+wikipedia-api
+@bot.message_handler(commands=['search'])
+def search(message):
+    keyboard = types.InlineKeyboardMarkup()
+    callback2_button=types.InlineKeyboardButton(text='Кнопка обратной связи 2',callback_data= 'cl_2')
+    keyboard.add(callback2_button)
+    bot.send_message(message.chat.id, "Привет! Нажми на кнопку и перейди в поисковик.", reply_markup=keyboard)
+
+def search_request(message):
+    if (message.text == 'Привет! Нажми на кнопку и перейди в поисковик.'):
+        wiki_wiki = wikipediaapi.Wikipedia('MyProjectName (merlin@example.com)', 'ru')
+        page_py = wiki_wiki.page(message.text)
+        print(page_py.summary)
+        print(page_py.fullurl)
+        bot.send_message(message.chat.id,page_py.summary[0:300]+'\nСсылка на статью: '+page_py.fullurl)
